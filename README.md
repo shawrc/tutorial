@@ -1,4 +1,4 @@
 # Tutorial
 
 This is my tutorial repository.
-This line is deleted.
+This line is restored.
