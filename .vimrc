@@ -96,17 +96,40 @@ set lazyredraw
 
 set backspace=indent,eol,start
 
+" Alwasy show tab bar
+"set stal=2
+
+" Set autowrap text
+autocmd FileType cc,h,szl,py set textwidth=80
+autocmd FileType java set textwidth=100
+
+" Trim ending whitespaces upon save
+autocmd BufWritePre * :%s/\s\+$//e
+
 " revert to the last cursor position, if the file was opened
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" Show right margin
+if has("colorcolumn")
+  autocmd FileType * set colorcolumn=80      " for vim73 and upper
+  autocmd FileType java set colorcolumn=80      " for vim73 and upper
+else
+"  highlight RightMargin ctermbg=white ctermfg=black guibg=#FFD9D9
+"  au FileType * syn clear RightMargin | syn match RightMargin /\%81v./ containedin=ALL
+  highlight OverLength ctermbg=darkgrey ctermfg=none guibg=#FFD9D9
+  autocmd FileType * match OverLength /\%81v.\+/
+  autocmd FileType java match OverLength /\%101v.\+/
+endif
 
 " Make it so that tabs and trailing spaces are always visible:
 " (Relys on syntax highlighting to turn them yellow.)
 set list!
 set listchars=tab:»·,trail:·
-" Trim ending whitespaces upon save
-autocmd BufWritePre * :%s/\s\+$//e
 
-" turn on incremental search with ignore case (except explicit caps)
+" Enable mouse support in console
+set mouse=a
+
+" Turn on incremental search with ignore case (except explicit caps)
 set incsearch
 set ignorecase      " ignore case when searching
 set smartcase
@@ -126,11 +149,9 @@ set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 hi StatusLine   ctermfg=15  guifg=#ffffff ctermbg=239 guibg=#4e4e4e cterm=bold gui=bold
 hi StatusLineNC ctermfg=249 guifg=#b2b2b2 ctermbg=237 guibg=#3a3a3a cterm=none gui=none
 
-" Show right margin
-set colorcolumn=80      " for vim73 and upper
-
-" Enable mouse support in console
-set mouse=a
+" Split auto focus on new window.
+set splitbelow
+set splitright
 
 " Map Ctrl-A -> Start of line, Ctrl-E -> End of line
 map <C-a> <Home>
